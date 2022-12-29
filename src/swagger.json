@@ -1,0 +1,331 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ignite Challenge: SOLID practice 'ATLAS'",
+    "description": "This is an API of list and signup of the users for practice SOLID code principles.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "elias-fausto@hotmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a new user",
+        "description": "Add new user to database",
+        "requestBody": {
+          "required": true,
+          "description": "Mandatory fields for creating a user.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Joao Pereira",
+                  "email": "jogaopereira@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User creation operation performed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean",
+                      "enum": [
+                        false
+                      ]
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "a32d8169-56ef-4d48-a2c1-a595ff748116"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Joao Pereira"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "joaopereira@gmail.com"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2022-12-28T14:00:00.000Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2022-12-28T14:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User email already in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "This email is already in use"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Return all users",
+        "description": "Only admins users can access this",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "description": "user id for identification",
+            "required": true,
+            "example": "a32d8169-56ef-4d48-a2c1-a595ff748116"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User list operation performed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": [
+                    {
+                      "admin": true,
+                      "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                      "name": "Joao Pereira",
+                      "email": "joaopereira@gmail.com",
+                      "created_at": "2022-12-28T14:00:00.000Z",
+                      "updated_at": "2022-12-28T14:00:00.000Z"
+                    },
+                    {
+                      "admin": true,
+                      "id": "a32d8169-56ef-4d48-a2c1-a595ff748227",
+                      "name": "Maria Aparecida",
+                      "email": "mariaaparecida@gmail.com",
+                      "created_at": "2022-12-27T11:20:00.000Z",
+                      "updated_at": "2022-12-27T11:20:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not allowed or not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "You need to be an administrator to list all users"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Return a specific user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "User ID",
+            "required": true,
+            "example": "user_id - ID do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List user-specific operation performed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "admin": false,
+                    "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                    "name": "Joao Pereira",
+                    "email": "joaopereira@gmail.com",
+                    "created_at": "2022-12-28T14:00:00.000Z",
+                    "updated_at": "2022-12-28T14:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not allowed or not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Make admin a user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Make admin a user operation performed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "admin": true,
+                    "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                    "name": "Joao Pereira",
+                    "email": "joaopereira@gmail.com",
+                    "created_at": "2022-12-28T14:00:00.000Z",
+                    "updated_at": "2022-12-28T14:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
